@@ -28,7 +28,7 @@ function Bookings() {
       const response =
         await axios.get(
 
-          `https://airbnb-backend-cpov.onrender.com/bookings/${userId}`
+          `https://airbnb-backend-cpov.onrender.com/api/bookings/${userId}`
 
         );
 
@@ -46,33 +46,34 @@ function Bookings() {
 
   }
 
+  // CANCEL BOOKING
   async function cancelBooking(id){
 
-  try {
+    try {
 
-    await axios.delete(
+      await axios.delete(
 
-      `https://airbnb-backend-cpov.onrender.com/api/bookings/${id}`
+        `https://airbnb-backend-cpov.onrender.com/api/bookings/${id}`
 
-    );
+      );
 
-    alert(
-      'Booking Cancelled'
-    );
+      alert(
+        'Booking Cancelled'
+      );
 
-    fetchBookings();
+      fetchBookings();
 
-  }
+    }
 
-  catch(error){
+    catch(error){
 
-    console.log(error);
+      console.log(error);
 
-    alert(
-      'Error Cancelling Booking'
-    );
+      alert(
+        'Error Cancelling Booking'
+      );
 
-  }
+    }
 
   }
 
@@ -85,6 +86,7 @@ function Bookings() {
       <div className="property-grid">
 
         {
+
           bookings.map((booking) => (
 
             <div
@@ -104,51 +106,63 @@ function Bookings() {
               />
 
               <h2>
+
                 {
                   booking.property.title
                 }
+
               </h2>
 
               <p>
 
                 Check In:
-                {new Date(
 
-                  booking.checkIn
+                {
 
-                ).toDateString()}
+                  new Date(
+
+                    booking.checkIn
+
+                  ).toDateString()
+
+                }
 
               </p>
 
               <p>
 
                 Check Out:
-                {new Date(
 
-                  booking.checkOut
+                {
 
-                ).toDateString()}
+                  new Date(
+
+                    booking.checkOut
+
+                  ).toDateString()
+
+                }
 
               </p>
 
               <h3>
 
                 Total:
-                 ₹ {booking.totalPrice}
+                ₹ {booking.totalPrice}
 
               </h3>
 
               <button
 
-               className="delete-btn"
+                className="delete-btn"
 
-               onClick={() =>
+                onClick={() =>
 
-               cancelBooking(
-               booking._id
-               )
+                  cancelBooking(
+                    booking._id
+                  )
 
-              }
+                }
 
               >
 
@@ -159,6 +173,7 @@ function Bookings() {
             </div>
 
           ))
+
         }
 
       </div>
