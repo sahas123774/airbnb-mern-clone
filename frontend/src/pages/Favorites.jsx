@@ -28,7 +28,7 @@ function Favorites() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/favorites/${userId}`
+          `https://airbnb-backend-cpov.onrender.com/api/favorites/${userId}`
 
         );
 
@@ -53,7 +53,7 @@ function Favorites() {
 
       await axios.delete(
 
-        `http://localhost:5000/api/favorites/${id}`
+        `https://airbnb-backend-cpov.onrender.com/api/favorites/${id}`
 
       );
 

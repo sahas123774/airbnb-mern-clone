@@ -48,7 +48,7 @@ function EditProperty() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/properties/${id}`
+          `https://airbnb-backend-cpov.onrender.com/api/properties/${id}`
 
         );
 
@@ -116,7 +116,7 @@ function EditProperty() {
       const response =
         await axios.put(
 
-          `http://localhost:5000/api/properties/${id}`,
+          `https://airbnb-backend-cpov.onrender.com/api/properties/${id}`,
 
           formData
 

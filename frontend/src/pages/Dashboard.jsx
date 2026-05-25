@@ -40,7 +40,7 @@ function Dashboard() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/properties/host/${hostId}`
+          `https://airbnb-backend-cpov.onrender.com/api/properties/host/${hostId}`
 
         );
 
@@ -76,7 +76,7 @@ function Dashboard() {
         const response =
           await axios.get(
 
-            `http://localhost:5000/api/bookings/property/${property._id}`
+            `https://airbnb-backend-cpov.onrender.com/api/bookings/property/${property._id}`
 
           );
 

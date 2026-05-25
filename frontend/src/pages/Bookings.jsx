@@ -28,7 +28,7 @@ function Bookings() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/bookings/${userId}`
+          `https://airbnb-backend-cpov.onrender.com/bookings/${userId}`
 
         );
 
@@ -52,7 +52,7 @@ function Bookings() {
 
     await axios.delete(
 
-      `http://localhost:5000/api/bookings/${id}`
+      `https://airbnb-backend-cpov.onrender.com/api/bookings/${id}`
 
     );
 

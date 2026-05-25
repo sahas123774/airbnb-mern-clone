@@ -39,7 +39,7 @@ const [maxPrice, setMaxPrice]
     const response =
       await axios.get(
 
-        'http://localhost:5000/api/properties',
+        'https://airbnb-backend-cpov.onrender.com/api/properties',
 
         {
 

@@ -87,7 +87,7 @@ function AddProperty() {
       const response =
         await axios.post(
 
-          'http://localhost:5000/api/properties',
+          'https://airbnb-backend-cpov.onrender.com/api/properties',
 
           formData
 

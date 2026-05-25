@@ -82,7 +82,7 @@ function PropertyDetails() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/properties/${id}`
+          `https://airbnb-backend-cpov.onrender.com/api/properties/${id}`
 
         );
 
@@ -108,7 +108,7 @@ function PropertyDetails() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/reviews/${id}`
+          `https://airbnb-backend-cpov.onrender.com/api/reviews/${id}`
 
         );
 
@@ -138,7 +138,7 @@ function PropertyDetails() {
       const response =
         await axios.get(
 
-          `http://localhost:5000/api/bookings/property/${id}`
+          `https://airbnb-backend-cpov.onrender.com/api/bookings/property/${id}`
 
         );
 
@@ -191,7 +191,7 @@ function PropertyDetails() {
 
       await axios.delete(
 
-        `http://localhost:5000/api/properties/${property._id}`
+        `https://airbnb-backend-cpov.onrender.com/api/properties/${property._id}`
 
       );
 
