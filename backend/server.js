@@ -1,6 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express =
+  require('express');
+
+const mongoose =
+  require('mongoose');
+
+const cors =
+  require('cors');
+
 require('dotenv').config();
 
 const authRoutes =
@@ -20,32 +26,90 @@ const reviewRoutes =
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/properties',propertyRoutes);
-app.use('/api/bookings',bookingRoutes);
-app.use('/api/favorites',favoriteRoutes);
-app.use('/api/reviews',reviewRoutes);
 
+// MIDDLEWARES
+app.use(cors());
+
+app.use(express.json());
+
+
+// STATIC FOLDER
+app.use(
+
+  '/uploads',
+
+  express.static('uploads')
+
+);
+
+
+// ROUTES
+app.use(
+  '/api/auth',
+  authRoutes
+);
+
+app.use(
+  '/api/properties',
+  propertyRoutes
+);
+
+app.use(
+  '/api/bookings',
+  bookingRoutes
+);
+
+app.use(
+  '/api/favorites',
+  favoriteRoutes
+);
+
+app.use(
+  '/api/reviews',
+  reviewRoutes
+);
+
+
+// TEST ROUTE
 app.get('/', (req, res) => {
+
   res.send('API Running');
+
 });
 
-const Port=5000;
 
-mongoose.connect(process.env.MONGO_URI)
+// PORT
+const Port =
+  process.env.PORT || 5000;
+
+
+// DATABASE CONNECTION
+mongoose.connect(
+
+  process.env.MONGO_URI
+
+)
+
 .then(() => {
 
-  console.log('MongoDB Connected');
+  console.log(
+    'MongoDB Connected'
+  );
 
   app.listen(Port, () => {
 
-  console.log(`Server Running at http://localhost:${Port}`);
+    console.log(
 
-});
+      `Server Running at Port ${Port}`
+
+    );
+
+  });
 
 })
+
 .catch((error) => {
+
   console.log(error);
+
 });
