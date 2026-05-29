@@ -8,6 +8,15 @@ const router = express.Router();
 const upload =
   require('../middleware/upload');
 
+const Booking =
+  require('../models/Booking');
+
+const Favorite =
+  require('../models/Favorite');
+
+const Review =
+  require('../models/Review');
+
 const cloudinary =
   require('../config/cloudinary');
 
@@ -272,32 +281,68 @@ router.put(
 );
 
 // DELETE PROPERTY
-router.delete('/:id', async (req, res) => {
+router.delete(
 
-  try {
+  '/:id',
 
-    await Property.findByIdAndDelete(
-      req.params.id
-    );
+  async (req, res) => {
 
-    res.status(200).json({
-      message:
-        'Property Deleted'
-    });
+    try {
+
+      const propertyId =
+        req.params.id;
+
+      // DELETE PROPERTY
+      await Property.findByIdAndDelete(
+        propertyId
+      );
+
+      // DELETE BOOKINGS
+      await Booking.deleteMany({
+
+        property: propertyId
+
+      });
+
+      // DELETE FAVORITES
+      await Favorite.deleteMany({
+
+        property: propertyId
+
+      });
+
+      // DELETE REVIEWS
+      await Review.deleteMany({
+
+        property: propertyId
+
+      });
+
+      res.json({
+
+        message:
+          'Property Deleted Successfully'
+
+      });
+
+    }
+
+    catch(error){
+
+      console.log(error);
+
+      res.status(500).json({
+
+        message:
+          'Server Error'
+
+      });
+
+    }
 
   }
 
-  catch(error){
-
-    console.log(error);
-
-    res.status(500).json({
-      message: 'Server Error'
-    });
-
-  }
-
-});
+);
 
 // HOST PROPERTIES
 router.get('/host/:hostId', async (req, res) => {
