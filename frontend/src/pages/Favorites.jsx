@@ -82,68 +82,87 @@ function Favorites() {
       <div className="property-grid">
 
         {
-          favorites.map((favorite) => (
 
-            <div
+          favorites.map((favorite) => {
 
-              className="property-card"
+            if(!favorite.property){
 
-              key={favorite._id}
+              return null;
 
-            >
+            }
 
-              <img
-                src={
-                  favorite.property.image
-                }
+            return (
 
-                alt={
-                  favorite.property.title
-                }
-              />
+              <div
 
-              <h2>
-                {
-                  favorite.property.title
-                }
-              </h2>
+                className="property-card"
 
-              <p>
-                {
-                  favorite.property.location
-                }
-              </p>
-
-              <h3>
-
-                ₹
-                {
-                  favorite.property.price
-                }
-
-              </h3>
-
-              <button
-
-                className="delete-btn"
-
-                onClick={() =>
-
-                  removeFavorite(
-                    favorite._id
-                  )
-
-                }
+                key={favorite._id}
 
               >
 
-                Remove Favorite
+                <img
 
-              </button>
+                  src={
+                    favorite.property.image
+                  }
 
-            </div>
+                  alt={
+                    favorite.property.title
+                  }
 
-          ))
+                />
+
+                <h2>
+
+                  {
+                    favorite.property.title
+                  }
+
+                </h2>
+
+                <p>
+
+                  {
+                    favorite.property.location
+                  }
+
+                </p>
+
+                <h3>
+
+                  ₹
+
+                  {
+                    favorite.property.price
+                  }
+
+                </h3>
+
+                <button
+
+                  className="delete-btn"
+
+                  onClick={() =>
+
+                    removeFavorite(
+                      favorite._id
+                    )
+
+                  }
+
+                >
+
+                  Remove Favorite
+
+                </button>
+
+              </div>
+
+            );
+
+          })
+
         }
 
       </div>

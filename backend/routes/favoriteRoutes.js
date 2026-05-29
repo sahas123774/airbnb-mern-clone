@@ -79,12 +79,21 @@ router.get('/:userId', async (req, res) => {
 
   try {
 
-    const favorites =
-      await Favorite.find({
+   const favorites =
+  await Favorite.find({
 
-        user: req.params.userId
+    user: req.params.userId
 
-      }).populate('property');
+  })
+
+  .populate('property');
+
+const validFavorites =
+  favorites.filter((favorite) => {
+
+    return favorite.property;
+
+  });
 
     res.status(200).json(
       favorites
