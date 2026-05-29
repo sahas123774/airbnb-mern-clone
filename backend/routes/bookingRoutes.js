@@ -130,6 +130,7 @@ router.post('/', async (req, res) => {
 
 
 // GET USER BOOKINGS
+// GET USER BOOKINGS
 router.get('/:userId', async (req, res) => {
 
   try {
@@ -139,10 +140,21 @@ router.get('/:userId', async (req, res) => {
 
         user: req.params.userId
 
-      }).populate('property');
+      })
+
+      .populate('property');
+
+    const validBookings =
+      bookings.filter((booking) => {
+
+        return booking.property;
+
+      });
 
     res.status(200).json(
-      bookings
+
+      validBookings
+
     );
 
   }
@@ -152,7 +164,10 @@ router.get('/:userId', async (req, res) => {
     console.log(error);
 
     res.status(500).json({
-      message: 'Server Error'
+
+      message:
+        'Server Error'
+
     });
 
   }

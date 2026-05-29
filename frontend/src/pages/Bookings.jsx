@@ -46,7 +46,6 @@ function Bookings() {
 
   }
 
-  // CANCEL BOOKING
   async function cancelBooking(id){
 
     try {
@@ -81,98 +80,114 @@ function Bookings() {
 
     <div>
 
-      <h1>My Bookings</h1>
+      <h1>
+        My Bookings
+      </h1>
 
       <div className="property-grid">
 
         {
 
-          bookings.map((booking) => (
+          bookings.map((booking) => {
 
-            <div
-              className="property-card"
+            if(!booking.property){
 
-              key={booking._id}
-            >
+              return null;
 
-              <img
-                src={
-                  booking.property.image
-                }
+            }
 
-                alt={
-                  booking.property.title
-                }
-              />
+            return (
 
-              <h2>
+              <div
 
-                {
-                  booking.property.title
-                }
+                className="property-card"
 
-              </h2>
-
-              <p>
-
-                Check In:
-
-                {
-
-                  new Date(
-
-                    booking.checkIn
-
-                  ).toDateString()
-
-                }
-
-              </p>
-
-              <p>
-
-                Check Out:
-
-                {
-
-                  new Date(
-
-                    booking.checkOut
-
-                  ).toDateString()
-
-                }
-
-              </p>
-
-              <h3>
-
-                Total:
-                ₹ {booking.totalPrice}
-
-              </h3>
-
-              <button
-
-                className="delete-btn"
-
-                onClick={() =>
-
-                  cancelBooking(
-                    booking._id
-                  )
-
-                }
+                key={booking._id}
 
               >
 
-                Cancel Booking
+                <img
 
-              </button>
+                  src={
+                    booking.property.image
+                  }
 
-            </div>
+                  alt={
+                    booking.property.title
+                  }
 
-          ))
+                />
+
+                <h2>
+
+                  {
+                    booking.property.title
+                  }
+
+                </h2>
+
+                <p>
+
+                  Check In:
+
+                  {
+
+                    new Date(
+
+                      booking.checkIn
+
+                    ).toDateString()
+
+                  }
+
+                </p>
+
+                <p>
+
+                  Check Out:
+
+                  {
+
+                    new Date(
+
+                      booking.checkOut
+
+                    ).toDateString()
+
+                  }
+
+                </p>
+
+                <h3>
+
+                  Total:
+                  ₹ {booking.totalPrice}
+
+                </h3>
+
+                <button
+
+                  className="delete-btn"
+
+                  onClick={() =>
+
+                    cancelBooking(
+                      booking._id
+                    )
+
+                  }
+
+                >
+
+                  Cancel Booking
+
+                </button>
+
+              </div>
+
+            );
+
+          })
 
         }
 
@@ -181,6 +196,7 @@ function Bookings() {
     </div>
 
   );
+
 }
 
 export default Bookings;
