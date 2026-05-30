@@ -278,7 +278,7 @@ function PropertyDetails() {
       const response =
         await axios.post(
 
-          'http://localhost:5000/api/bookings',
+          'http://airbnb-backend-cpov.onrender.com/api/bookings',
 
           {
 
@@ -333,7 +333,7 @@ function PropertyDetails() {
       const response =
         await axios.post(
 
-          'http://localhost:5000/api/favorites',
+          'http://airbnb-backend-cpov.onrender.com/api/favorites',
 
           {
 
@@ -374,7 +374,7 @@ function PropertyDetails() {
       const response =
         await axios.post(
 
-          'http://localhost:5000/api/reviews',
+          'http://airbnb-backend-cpov.onrender.com/api/reviews',
 
           {
 
