@@ -24,6 +24,9 @@ const favoriteRoutes =
 const reviewRoutes =
   require('./routes/reviewRoutes');
 
+const aiRoutes =
+  require('./routes/aiRoutes');
+
 const app = express();
 
 
@@ -67,6 +70,11 @@ app.use(
 app.use(
   '/api/reviews',
   reviewRoutes
+);
+
+app.use(
+  '/api/ai',
+  aiRoutes
 );
 
 
