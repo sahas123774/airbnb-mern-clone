@@ -33,7 +33,7 @@ function AIAssistant() {
       const response =
         await axios.post(
 
-          'http://airbnb-backend-cpov.onrender.com/api/ai/chat',
+          'https://airbnb-backend-cpov.onrender.com/api/ai/chat',
 
           {
             message: userMessage
