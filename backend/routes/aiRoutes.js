@@ -4,22 +4,91 @@ const express =
 const router =
   express.Router();
 
-const {
-  GoogleGenerativeAI
-} = require(
-  '@google/generative-ai'
-);
+const OpenAI =
+  require('openai');
 
 const Property =
   require('../models/Property');
 
-const genAI =
-  new GoogleGenerativeAI(
+const Review =
+  require('../models/Review');
 
-    process.env.GEMINI_API_KEY
+const openai =
+  new OpenAI({
 
-  );
+    baseURL:
+      'https://openrouter.ai/api/v1',
 
+    apiKey:
+      process.env.OPENROUTER_API_KEY
+
+  });
+
+
+// TEST ROUTE
+router.get(
+  '/test',
+
+  async (req, res) => {
+
+    try {
+
+      const completion =
+        await openai.chat.completions.create({
+
+          model:
+            'openai/gpt-3.5-turbo',
+
+          messages: [
+
+            {
+
+              role: 'user',
+
+              content:
+                'Say Hello Airbnb User'
+
+            }
+
+          ]
+
+        });
+
+      res.status(200).json({
+
+        reply:
+
+          completion
+          .choices[0]
+          .message
+          .content
+
+      });
+
+    }
+
+    catch(error){
+
+      console.error(
+        'TEST ROUTE ERROR:',
+        error
+      );
+
+      res.status(500).json({
+
+        message:
+          error.message
+
+      });
+
+    }
+
+  }
+
+);
+
+
+// AI CHAT ROUTE
 router.post(
   '/chat',
 
@@ -33,60 +102,138 @@ router.post(
       const properties =
         await Property.find();
 
-      const propertyData =
-        properties.map(
+      if(properties.length === 0){
 
-          (property) => ({
+        return res.status(200).json({
 
-            title:
-              property.title,
-
-            location:
-              property.location,
-
-            price:
-              property.price
-
-          })
-
-        );
-
-      const model =
-        genAI.getGenerativeModel({
-
-          model:
-            'gemini-1.5-flash'
+          reply:
+            'No properties available.'
 
         });
 
-      const prompt =
+      }
 
-        `
-You are an Airbnb AI Assistant.
+      const propertyInfo = [];
+
+      for(const property of properties){
+
+        const reviews =
+          await Review.find({
+
+            property:
+              property._id
+
+          });
+
+        let averageRating = 0;
+
+        if(reviews.length > 0){
+
+          const total =
+            reviews.reduce(
+
+              (sum, review) =>
+
+                sum + review.rating,
+
+              0
+
+            );
+
+          averageRating =
+            (
+              total /
+              reviews.length
+            ).toFixed(1);
+
+        }
+
+        propertyInfo.push(
+
+`Title: ${property.title}
+Location: ${property.location}
+Price: ₹${property.price}
+Rating: ${averageRating}`
+
+        );
+
+      }
+
+      const propertyData =
+        propertyInfo.join('\n\n');
+
+      const completion =
+        await openai.chat.completions.create({
+
+          model:
+            'openai/gpt-3.5-turbo',
+
+          messages: [
+
+            {
+
+              role: 'system',
+
+              content:
+
+`You are an Airbnb AI Assistant.
 
 Available Properties:
 
-${JSON.stringify(propertyData)}
+${propertyData}
 
-User Question:
-${message}
+Rules:
 
-Recommend properties only from the available properties list above.
-Keep answers short and helpful.
-`;
+1. Recommend ONLY from these properties.
+2. If user asks for cheapest property, recommend the lowest priced property.
+3. If user asks for best property, recommend the highest rated property.
+4. If user asks for properties above a certain rating, filter using ratings.
+5. If user asks for a location, recommend matching properties.
+6. Never say you don't have access to ratings.
+7. Keep responses short and professional.
 
-      const result =
-        await model.generateContent(
-          prompt
-        );
+Always answer in EXACTLY this format:
 
-      const response =
-        result.response.text();
+🏠 Property:
+[property title]
 
-      res.json({
+📍 Location:
+[property location]
+
+💰 Price:
+₹[price]
+
+⭐ Rating:
+[rating]/5
+
+📝 Why I Recommend It:
+[one short sentence]
+
+If multiple properties match, repeat the same format for each property.`
+
+            },
+
+            {
+
+              role: 'user',
+
+              content:
+                message
+
+            }
+
+          ]
+
+        });
+
+      res.status(200).json({
 
         reply:
-          response
+
+          completion
+          .choices[0]
+          .message
+          .content
 
       });
 
@@ -94,12 +241,15 @@ Keep answers short and helpful.
 
     catch(error){
 
-      console.log(error);
+      console.error(
+        'AI CHAT ERROR:',
+        error
+      );
 
       res.status(500).json({
 
         message:
-          'AI Error'
+          error.message
 
       });
 

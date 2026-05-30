@@ -77,6 +77,10 @@ function Navbar() {
 
               </Link>
 
+              <Link to="/ai-assistant">
+               AI Assistant
+              </Link>
+
               <button
                 className="logout-btn"
                 onClick={handleLogout}

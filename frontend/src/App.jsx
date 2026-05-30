@@ -30,6 +30,9 @@ import Bookings
 
 import Favorites
   from './pages/Favorites';
+
+import AIAssistant
+  from './pages/AIAssistant';
   
 import HostRoute from './components/HostRoute';
 
@@ -188,6 +191,20 @@ function App() {
 
       }
 
+     />
+
+     <Route
+        path="/ai-assistant"
+        element={
+      <ProtectedRoute>
+
+       <MainLayout>
+
+        <AIAssistant />
+
+       </MainLayout>
+
+      </ProtectedRoute>}
      /> 
 
     </Routes>
