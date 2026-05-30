@@ -288,7 +288,9 @@ function PropertyDetails() {
 
             checkIn,
 
-            checkOut
+            checkOut,
+
+            totalPrice
 
           }
 
@@ -421,6 +423,15 @@ function PropertyDetails() {
 
   }
 
+  const nights =
+  Math.ceil(
+    (new Date(checkOut) - new Date(checkIn))
+    / (1000 * 60 * 60 * 24)
+  ) || 0;
+
+  const totalPrice =
+    nights * property.price;
+
   return (
 
     <div className="details-page">
@@ -518,17 +529,39 @@ function PropertyDetails() {
 
               </h2>
 
+              <p>
+
+                Property:
+                  {property.title}
+ 
+              </p>
+
+              <p>
+
+                Check In:
+                 {checkIn}
+
+              </p>
+
+              <p>
+
+                Check Out:
+                 {checkOut}
+
+              </p>
+
               <h3>
 
-                ₹ {property.price}
+                Total Amount:
+                 ₹ {totalPrice}
 
               </h3>
 
               <p>
 
-                Demo Payment Gateway
+               Nights: {nights}
 
-              </p>
+               </p>
 
               <button
                 onClick={
